@@ -1,44 +1,39 @@
-// Fill out your copyright notice in the Description page of Project Settings.
 
-#pragma once
 
-#include "CoreMinimal.h"
-#include "GameFramework/Character.h"
-#include "CharacterBase.generated.h"
 
-UENUM(BlueprintType)
-enum class ECharacterType : uint8
+#include "CharacterBase.h"
+
+ACharacterBase::ACharacterBase()
 {
-	CT_Villager UMETA(DisplayName = "Villager"),
-	CT_Soldier UMETA(DisplayName = "Soldier")
-};
+	PrimaryActorTick.bCanEverTick = true;
+	Health = 100.0f;
+	Strength = 10.0f;
+	speed = 300.0f;
+}
 
-UCLASS()
-class WAR_AND_DEATH_API ACharacterBase : public ACharacter
+void ACharacterBase::BeginPlay()
 {
-	GENERATED_BODY()
+	Super::BeginPlay();
+}
 
-public:
-	// Sets default values for this character's properties
-	ACharacterBase();
+void ACharacterBase::InitializeCharacter(ECharacterType Type)
+{
+	CharacterType = Type;
 
-protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
+	switch (CharacterType)
+	{
+	case ECharacterType::CT_Villager:
+		Health = 80.0f;
+		Strength = 5.0f;
+		speed = 250.0f;
+		UE_LOG(LogTemp, Warning, TEXT("Unidad Creada: Aldeano"));
+		break;
 
-public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Character")
-	ECharacterType CharacterType;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Character Stats")
-	float Health;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Character Stats")
-	float Strength;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Character")
-	float speed;
-
-	UFUNCTION(BlueprintCallable, Category = "Character")
-	void InitializeCharacter(ECharacterType Type);
-};
+	case ECharacterType::CT_Soldier:
+		Health = 150.0f;
+		Strength = 20.0f;
+		speed = 350.0f;
+		UE_LOG(LogTemp, Warning, TEXT("Unidad Creada: Soldado"));
+		break;
+	}
+}

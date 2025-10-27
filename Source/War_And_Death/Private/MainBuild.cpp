@@ -2,50 +2,45 @@
 
 
 #include "MainBuild.h"
+#include "CharacterBase.h"
 #include "Engine/World.h"
-#include "Kismet/GameplayStatics.h"
 
-// Sets default values
 AMainBuild::AMainBuild()
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
 
-	BuildMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("BuildingMesh"));
+	BuildMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("BuildMesh"));
 	RootComponent = BuildMesh;
 
 	SpawnPoint = CreateDefaultSubobject<USceneComponent>(TEXT("SpawnPoint"));
 	SpawnPoint->SetupAttachment(RootComponent);
 }
 
-// Called when the game starts or when spawned
 void AMainBuild::BeginPlay()
 {
 	Super::BeginPlay();
-	
 }
 
 void AMainBuild::CreateVillager()
 {
 	if (!CharacterToSpawn)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("No se asigno una clase de personaje para crear"))
-			return;
+		UE_LOG(LogTemp, Warning, TEXT("No se asignó una clase de personaje para crear"));
+		return;
 	}
 
-	FVector SpawnLocation = SpawnPoint->GetComponentLocation();
-	FRotator SpawnRotation = SpawnPoint->GetComponentRotation();
+	const FVector SpawnLocation = SpawnPoint->GetComponentLocation();
+	const FRotator SpawnRotation = SpawnPoint->GetComponentRotation();
 
 	FActorSpawnParameters SpawnParams;
-	SpawnParams.SpawnCollisionHandlingOverride
-		= ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
+	SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
 
 	ACharacterBase* NewCharacter = GetWorld()->SpawnActor<ACharacterBase>(
-		CharacterToSpawn, SpawnLocation, SpawnRotation);
+		CharacterToSpawn, SpawnLocation, SpawnRotation, SpawnParams);
 
 	if (NewCharacter)
 	{
 		NewCharacter->InitializeCharacter(ECharacterType::CT_Villager);
-		UE_LOG(LogTemp, Warning, TEXT("Aldeano creado en la posicion: %s"), *SpawnLocation.ToString())
+		UE_LOG(LogTemp, Warning, TEXT("Aldeano creado en la posicion: %s"), *SpawnLocation.ToString());
 	}
 }

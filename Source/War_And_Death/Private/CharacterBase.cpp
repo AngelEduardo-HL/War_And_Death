@@ -1,6 +1,5 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-
 #include "CharacterBase.h"
 
 // Sets default values
@@ -31,14 +30,14 @@ void ACharacterBase::InitializeCharacter(ECharacterType Type)
 			Health = 80.0f;
 			Strength = 5.0f;
 			speed = 250.0f;
-			UE_LOG(LogTemp, Warning, TEXT("Unidad Creada: Aldeano"))
+			UE_LOG(LogTemp, Warning, TEXT("Unidad Creada: Aldeano"));
 			break;
 
 		case ECharacterType::CT_Soldier:
 			Health = 150.0f;
 			Strength = 20.0f;
 			speed = 350.0f;
-			UE_LOG(LogTemp, Warning, TEXT("Unidad Creada: Soldado"))
+			UE_LOG(LogTemp, Warning, TEXT("Unidad Creada: Soldado"));
 			break;
 	}
 }
