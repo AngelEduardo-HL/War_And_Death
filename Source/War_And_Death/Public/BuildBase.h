@@ -1,4 +1,3 @@
-#pragma warning(diable: 4100)
 #pragma once
 
 #include "CoreMinimal.h"
