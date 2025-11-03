@@ -1,23 +1,21 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
+// CharacterBase.cpp
 #include "CharacterBase.h"
+#include "GameFramework/CharacterMovementComponent.h"
 
-// Sets default values
 ACharacterBase::ACharacterBase()
 {
- 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-	Health = 100.0f;
-	Strength = 10.0f;
-	speed = 300.0f;
-
 }
 
-// Called when the game starts or when spawned
 void ACharacterBase::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
+	// Asegurar velocidad en el MovementComponent si existe
+	if (auto* Move = GetCharacterMovement())
+	{
+		Move->MaxWalkSpeed = Speed;
+	}
 }
 
 void ACharacterBase::InitializeCharacter(ECharacterType Type)
@@ -26,19 +24,24 @@ void ACharacterBase::InitializeCharacter(ECharacterType Type)
 
 	switch (CharacterType)
 	{
-		case ECharacterType::CT_Villager:
-			Health = 80.0f;
-			Strength = 5.0f;
-			speed = 250.0f;
-			UE_LOG(LogTemp, Warning, TEXT("Unidad Creada: Aldeano"));
-			break;
+	case ECharacterType::CT_Villager:
+		Health = 80.f;
+		Strength = 5.f;
+		Speed = 250.f;
+		UE_LOG(LogTemp, Warning, TEXT("Unidad Creada: Aldeano"));
+		break;
 
-		case ECharacterType::CT_Soldier:
-			Health = 150.0f;
-			Strength = 20.0f;
-			speed = 350.0f;
-			UE_LOG(LogTemp, Warning, TEXT("Unidad Creada: Soldado"));
-			break;
+	case ECharacterType::CT_Soldier:
+		Health = 150.f;
+		Strength = 20.f;
+		Speed = 350.f;
+		UE_LOG(LogTemp, Warning, TEXT("Unidad Creada: Soldado"));
+		break;
+	}
+
+	// Actualizar velocidad si ya hay MovementComponent
+	if (auto* Move = GetCharacterMovement())
+	{
+		Move->MaxWalkSpeed = Speed;
 	}
 }
-

@@ -9,6 +9,7 @@
 #include "MainBuild.generated.h"
 
 class ACharacterBase;
+TSubclassOf<ACharacterBase>;
 
 UCLASS()
 class WAR_AND_DEATH_API AMainBuild : public AActor

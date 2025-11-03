@@ -1,39 +1,43 @@
+// CharacterBase.h
+#pragma once
 
+#include "CoreMinimal.h"
+#include "GameFramework/Character.h"
+#include "CharacterBase.generated.h"
 
-
-#include "CharacterBase.h"
-
-ACharacterBase::ACharacterBase()
+// TIPOS DE UNIDAD
+UENUM(BlueprintType)
+enum class ECharacterType : uint8
 {
-	PrimaryActorTick.bCanEverTick = true;
-	Health = 100.0f;
-	Strength = 10.0f;
-	speed = 300.0f;
-}
+	CT_Villager UMETA(DisplayName="Villager"),
+	CT_Soldier  UMETA(DisplayName="Soldier")
+};
 
-void ACharacterBase::BeginPlay()
+UCLASS()
+class WAR_AND_DEATH_API ACharacterBase : public ACharacter
 {
-	Super::BeginPlay();
-}
+	GENERATED_BODY()
 
-void ACharacterBase::InitializeCharacter(ECharacterType Type)
-{
-	CharacterType = Type;
+public:
+	ACharacterBase();
 
-	switch (CharacterType)
-	{
-	case ECharacterType::CT_Villager:
-		Health = 80.0f;
-		Strength = 5.0f;
-		speed = 250.0f;
-		UE_LOG(LogTemp, Warning, TEXT("Unidad Creada: Aldeano"));
-		break;
+	// Estado básico
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Stats")
+	float Health = 100.f;
 
-	case ECharacterType::CT_Soldier:
-		Health = 150.0f;
-		Strength = 20.0f;
-		speed = 350.0f;
-		UE_LOG(LogTemp, Warning, TEXT("Unidad Creada: Soldado"));
-		break;
-	}
-}
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Stats")
+	float Strength = 10.f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Stats")
+	float Speed = 300.f;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Type")
+	ECharacterType CharacterType = ECharacterType::CT_Villager;
+
+	// Inicializa stats según el tipo
+	UFUNCTION(BlueprintCallable, Category="Init")
+	void InitializeCharacter(ECharacterType Type);
+
+protected:
+	virtual void BeginPlay() override;
+};

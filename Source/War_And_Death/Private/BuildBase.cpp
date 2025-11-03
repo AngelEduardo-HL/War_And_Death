@@ -73,7 +73,7 @@ void ABuildBase::ApplyBuildingEffect(ACharacterBase* Target)
 
 	if (BuildRole == EBuildRole::Farm)
 	{
-		Target->speed *= SpeedMultiplier;
+		Target->Speed *= SpeedMultiplier;
 		UE_LOG(LogTemp, Warning, TEXT("Efecto de Farm aplicado: Velocidad aumentada x%.2f"), SpeedMultiplier);
 	}
 	else

@@ -1,4 +1,4 @@
-
+#pragma warning(diable: 4100)
 #pragma once
 
 #include "CoreMinimal.h"
@@ -7,7 +7,6 @@
 #include "Components/StaticMeshComponent.h"
 #include "Components/SceneComponent.h"
 #include "BuildBase.generated.h"
-
 
 class ACharacterBase;
 
